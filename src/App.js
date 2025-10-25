@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'; // 컴포넌트 import 해야 사용가능
+import bg from './img/bg.png'
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
             <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Container>
-
        <Button variant="primary">Primary</Button>
       </Navbar>
+
+      <div className="main-bg" style={{ backgroundImage : 'url('+ bg +')'}}></div>
+
     </div>
   );
 }
