@@ -28,8 +28,16 @@ function App() {
               <h4>상품명</h4>
               <p>상품설명</p>
             </div>
-            <div className="col-md-4">안녕</div>
-            <div className="col-md-4">안녕</div>
+            <div className="col-md-4">
+              <img src={plant} width="80%"></img>
+              <h4>상품명</h4>
+              <p>상품설명</p>
+            </div>
+            <div className="col-md-4">
+              <img src={plant} width="80%"></img>
+              <h4>상품명</h4>
+              <p>상품설명</p>
+            </div>
           </div>
         </div> 
     </div>
