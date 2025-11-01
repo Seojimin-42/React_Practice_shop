@@ -22,7 +22,6 @@ function App() {
             <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Container>
-       <Button variant="primary">Primary</Button>
       </Navbar>
 
       <div className="main-bg" style={{ backgroundImage : 'url('+ bg +')'}}></div>
