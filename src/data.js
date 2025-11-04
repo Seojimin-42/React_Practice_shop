@@ -3,23 +3,22 @@ let data = [
     id : 0,
     title : "라벤더",
     content : "Born in France",
-    price : 120000
+    price : 12000
   },
 
   {
     id : 1,
     title : "장미",
     content : "Born in Seoul",
-    price : 110000
+    price : 11000
   },
 
   {
     id : 2,
-    title : "동백꽃",
+    title : "개나리",
     content : "Born in Seoul",
-    price : 130000
+    price : 13000
   }
 ] 
-
 
 export default data;
