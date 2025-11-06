@@ -11,22 +11,24 @@ import plant3 from './img/forsythia.png'
 
 import data from './data.js';
 
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, Outlet,  } from 'react-router-dom'
+import Detail from './routes/Detail.js'
 
 function App() {
 
   let [plants] = useState(data)
-  let images = [plant1, plant2, plant3] 
+  let images = [plant1, plant2, plant3]
+  let navigate = useNavigate();
 
   return (
     <div className="App">
 
-       <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">홈</Nav.Link>
-            <Nav.Link href="/detail">상세페이지</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/') }}>홈</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/detail') }}>상세페이지</Nav.Link>
           </Nav>
         </Container>
        <Button variant="primary">Primary</Button>
@@ -48,25 +50,17 @@ function App() {
             </div>
           </div>
         }/>
-        <Route path="/detail" element={
-          <div className="container">
-            <div className="row">
-                {
-                  plants.map((a, i)=>{
-                    return (
-                    <div className="col-md-6 d-flex flex-column align-items-center mt-4">
-                      <Card plants={a} img={images[i]} width="100%"></Card>
-                      <button className="btn btn-danger">주문하기</button>
-                    </div>
-                    );
-                  })
-                }
-              </div>
-          </div> 
-        } />
-      </Routes>
+        
+        <Route path="/detail/:id" element={<Detail plants={plants}/>} />
 
-     
+        <Route path="*" element={<div>해당 페이지는 없어요. 404페이지입니다.</div>} />
+        
+        <Route path="/event" element={<Event/>}>
+          <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
+          <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
+        </Route>
+        
+        </Routes>
     </div>
   );
 }
@@ -74,9 +68,18 @@ function App() {
 function Card(props){
   return(
     <div className="col-md-4">
-      <img src={props.img} width="80%"></img>
+      <img src={props.img} width="80%" alt="식물 이미지"></img>
       <h4>{props.plants.title}</h4>
       <p>{props.plants.price}</p>
+    </div>
+  )
+}
+
+function Event(){
+  return (
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
     </div>
   )
 }
