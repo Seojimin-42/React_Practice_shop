@@ -2,10 +2,12 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components'
 
 import lavender from "../img/lavender.png";
+import { useState , useEffect } from "react";
+import { Modal } from "react-bootstrap";
 
 let YellowBtn = styled.button`
     background : ${ props => props.bg };
-    color : black;
+    color : ${ props => props.bg == 'blue' ? 'white' : 'black'};
     padding : 10px;
 `
 let Box = styled.div`
@@ -13,19 +15,29 @@ let Box = styled.div`
     padding : 20px;
 `
 
-
 function Detail(props){
+
+    let [count, setCount] = useState(0)
+    let [showBox, setShowBox] = useState(true);
 
     let {id} = useParams();
     let 찾은상품 = props.plants.find(function(x){
         return x.id==id
     });
 
+    useEffect(()=>{
+        // useEffect에서 2초 뒤 상태 바꾸기
+        setTimeout(()=>{ setShowBox(false); }, 2000) 
+    })
+
     return(
         <div className="container">
-            <Box>
-                <YellowBtn>버튼</YellowBtn>
-            </Box>
+            
+            { showBox == true ? <div className="alert alert-warning">2초이내 구매시 할인</div> : null }
+
+            { count }
+            <button onClick={()=>{ setCount(count+1) }}>버튼</button>
+
             <div className="row align-items-center" style={{ minHeight: "90vh" }}>
                 <div className="col-md-6">
                     <img src={lavender} width="100%" />
