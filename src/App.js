@@ -13,10 +13,11 @@ import data from './data.js';
 
 import { Routes, Route, Link, useNavigate, Outlet,  } from 'react-router-dom'
 import Detail from './routes/Detail.js'
+import axios from 'axios';
 
 function App() {
 
-  let [plants] = useState(data)
+  let [plants, setPlants] = useState(data)
   let images = [plant1, plant2, plant3]
   let navigate = useNavigate();
 
@@ -48,6 +49,17 @@ function App() {
                 }
               </div>
             </div>
+            <button onClick={()=>{ 
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((결과)=>{ 
+                console.log(결과.data)
+                let copy = [...plants, ...결과.data];
+                setPlants(copy);
+              })
+              .catch(()=>{
+                console.log('실패') 
+              })
+             }}>더보기</button>
           </div>
         }/>
         

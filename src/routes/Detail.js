@@ -19,6 +19,7 @@ function Detail(props){
 
     let [count, setCount] = useState(0)
     let [showBox, setShowBox] = useState(true);
+    let [input, setInput] = useState('');
 
     let {id} = useParams();
     let 찾은상품 = props.plants.find(function(x){
@@ -27,8 +28,17 @@ function Detail(props){
 
     useEffect(()=>{
         // useEffect에서 2초 뒤 상태 바꾸기
-        setTimeout(()=>{ setShowBox(false); }, 2000) 
+        let a = setTimeout(()=>{ setShowBox(false); }, 2000)
+        return ()=>{
+            clearTimeout(a)
+        }
     })
+
+    useEffect(()=>{
+        if(isNaN(input) == true){
+            alert('숫자만 입력하세요')
+        }
+    }, [input])
 
     return(
         <div className="container">
@@ -37,6 +47,8 @@ function Detail(props){
 
             { count }
             <button onClick={()=>{ setCount(count+1) }}>버튼</button>
+
+            <input onChange={(e)=>{ setInput(e.target.value) } }/>
 
             <div className="row align-items-center" style={{ minHeight: "90vh" }}>
                 <div className="col-md-6">
