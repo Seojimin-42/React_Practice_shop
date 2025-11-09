@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'; // 컴포넌트 import 해야 사용가능
-import { useState } from "react";
+import { createContext, useState } from "react";
 import bg from './img/bg.png'
 
 import plant1 from './img/lavender.png'
@@ -14,12 +14,19 @@ import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet,  } from 'react-router-dom'
 import Detail from './routes/Detail.js'
 import axios from 'axios';
+import Cart from './routes/Cart.js'
+
+export let Context1 = createContext()
 
 function App() {
 
   let [plants, setPlants] = useState(data)
   let images = [plant1, plant2, plant3]
   let navigate = useNavigate();
+  let [clickCount, setClickCount] = useState(0);
+  let [loading, setLoading] = useState(false);
+
+  let [재고] = useState([10, 11, 12])
 
   return (
     <div className="App">
@@ -49,27 +56,60 @@ function App() {
                 }
               </div>
             </div>
-            <button onClick={()=>{ 
-              axios.get('https://codingapple1.github.io/shop/data2.json')
-              .then((결과)=>{ 
-                console.log(결과.data)
-                let copy = [...plants, ...결과.data];
-                setPlants(copy);
-              })
-              .catch(()=>{
-                console.log('실패') 
-              })
-             }}>더보기</button>
+
+            { loading ? <p>로딩중입니다...</p> : null }
+
+            <button onClick={()=>{
+              setLoading(true); // 로딩시작
+              if (clickCount == 0) {
+                axios.get('https://codingapple1.github.io/shop/data2.json')
+                .then((결과)=>{ 
+                  let copy = [...plants, ...결과.data];
+                  setPlants(copy);
+                  setClickCount(1);
+                  setLoading(false); // 로딩 끝
+                })
+                .catch(()=>{
+                  console.log('실패');
+                  setLoading(false); // 로딩 끝
+                })
+              }
+              else if (clickCount == 1) {
+                axios.get('https://codingapple1.github.io/shop/data3.json')
+                .then((결과)=>{ 
+                  let copy = [...plants, ...결과.data];
+                  setPlants(copy);
+                  setClickCount(2);
+                  setLoading(false); // 로딩 끝
+                })
+                .catch(()=>{
+                  console.log('실패');
+                  setLoading(false); // 로딩 끝
+                })
+              }
+              else{
+                alert('더 이상 상품이 없습니다!');
+                setLoading(false); // 로딩 끝
+              }
+              }}>더보기</button>
           </div>
         }/>
         
-        <Route path="/detail/:id" element={<Detail plants={plants}/>} />
+        <Route path="/detail/:id" element={
+          <Context1.Provider value={{ 재고 }}>
+            <Detail plants={plants}/>
+          </Context1.Provider>
+        } />
 
         <Route path="*" element={<div>해당 페이지는 없어요. 404페이지입니다.</div>} />
         
         <Route path="/event" element={<Event/>}>
           <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
+        </Route>
+
+        <Route path="/cart" element={ <Cart/> }>
+
         </Route>
         
         </Routes>
