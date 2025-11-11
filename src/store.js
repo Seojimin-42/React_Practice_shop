@@ -1,9 +1,5 @@
 import { configureStore, createSlice  } from '@reduxjs/toolkit'
-
-let user = createSlice({
-    name : 'user',
-    initialState : 'seo'
-})
+import user from './store/userSlice.js'
 
 let stock = createSlice({
     name : 'stock',
@@ -16,8 +12,20 @@ let cart = createSlice({
     [
         {id : 0, name : 'White and Black', count : 2},
         {id : 2, name : 'Grey Yordan', count : 1}
-    ] 
+    ],
+    reducers : {
+      addCount(state, action) {
+        let found = state.find(x => x.id === Number(action.payload.id));
+        if (found) {
+          found.count += 1;
+        } else{
+          state.push({ ...action.payload, count:1 });
+        }
+      }
+    }
 })
+
+export let { addCount } = cart.actions
 
 export default configureStore({
   reducer: { 
