@@ -8,7 +8,7 @@ import { Nav } from "react-bootstrap"
 
 import { Context1 } from "./../App.js"
 import { useDispatch } from "react-redux"
-import { addCount } from "../store.js"
+import { addCount, addItem } from "../store.js"
 
 let YellowBtn = styled.button`
     background : ${ props => props.bg };
@@ -77,7 +77,7 @@ function Detail(props){
                     <p>{찾은상품.content}</p>
                     <p>{찾은상품.price}원</p>
                     <button onClick={()=>{
-                        dispatch(addCount(찾은상품));
+                        dispatch(addItem( {id : 1, name : 'Red Kint', count : 1} ))
                     }} className="btn btn-danger">주문하기</button>
                 </div>
             </div>

@@ -32,12 +32,12 @@ function Cart() {
                 {
                     state.cart.map((a, i)=>
                         <tr key={i}>
-                            <td>1</td>
+                            <td>{state.cart[i].id}</td>
                             <td>{state.cart[i].name}</td>
                             <td>{state.cart[i].count}</td>
                             <td>
                                 <button onClick={()=>{
-                                    dispatch(addCount(a))
+                                    dispatch(addCount(state.cart[i].id))
                                 }}>+</button>
                             </td>
                         </tr>
