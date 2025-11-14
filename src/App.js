@@ -20,6 +20,10 @@ export let Context1 = createContext()
 
 function App() {
 
+  // useEffect(()=>{
+  //   localStorage.setItem('watched', JSON.stringify([plants.id]))
+  // },[]) 
+
   let [plants, setPlants] = useState(data)
   let images = [plant1, plant2, plant3]
   let navigate = useNavigate();
