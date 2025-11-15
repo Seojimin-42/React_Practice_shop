@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'; // 컴포넌트 import 해야 사용가능
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import bg from './img/bg.png'
 
 import plant1 from './img/lavender.png'
@@ -20,9 +20,9 @@ export let Context1 = createContext()
 
 function App() {
 
-  // useEffect(()=>{
-  //   localStorage.setItem('watched', JSON.stringify([plants.id]))
-  // },[]) 
+  useEffect(()=>{
+    localStorage.setItem('watched', JSON.stringify( [] ))
+  },[])
 
   let [plants, setPlants] = useState(data)
   let images = [plant1, plant2, plant3]
