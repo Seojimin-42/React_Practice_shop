@@ -15,6 +15,7 @@ import { Routes, Route, Link, useNavigate, Outlet,  } from 'react-router-dom'
 import Detail from './routes/Detail.js'
 import axios from 'axios';
 import Cart from './routes/Cart.js'
+import { useQuery } from '@tanstack/react-query';
 
 export let Context1 = createContext()
 
@@ -32,6 +33,14 @@ function App() {
 
   let [재고] = useState([10, 11, 12])
 
+  let result = useQuery({
+    queryKey: [ 'getName' ],
+    queryFn: () => { 
+      return axios.get('https://codingapple1.github.io/userdata.json') 
+      .then(a => a.data)
+    }
+  })
+
   return (
     <div className="App">
 
@@ -42,6 +51,11 @@ function App() {
             <Nav.Link onClick={()=>{ navigate('/') }}>홈</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/detail/0') }}>상세페이지</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/cart') }}>장바구니</Nav.Link>
+          </Nav>
+          <Nav className="me-auto">
+            { result.isPending && '로딩중' }
+            { result.isError && '에러남' }
+            { result.isSuccess && result.data.name }
           </Nav>
         </Container>
        <Button variant="primary">Primary</Button>

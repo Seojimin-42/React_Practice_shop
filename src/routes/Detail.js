@@ -36,6 +36,19 @@ function Detail(props){
     });
 
     useEffect(()=>{
+        // console.log(찾은상품.id);
+        let 꺼낸거 = localStorage.getItem('watched')
+        꺼낸거 = JSON.parse(꺼낸거)
+        꺼낸거.push(찾은상품.id)
+
+        // Array 중복 추가 제거
+        꺼낸거 = new Set(꺼낸거)
+        꺼낸거 = Array.from(꺼낸거)
+        
+        localStorage.setItem('watched', JSON.stringify(꺼낸거))
+    },[])
+
+    useEffect(()=>{
         // useEffect에서 2초 뒤 상태 바꾸기
         let a = setTimeout(()=>{ setShowBox(false); }, 2000)
         return ()=>{
