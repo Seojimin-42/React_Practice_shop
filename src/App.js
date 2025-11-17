@@ -12,12 +12,14 @@ import plant3 from './img/forsythia.png'
 import data from './data.js';
 
 import { Routes, Route, Link, useNavigate, Outlet,  } from 'react-router-dom'
-import Detail from './routes/Detail.js'
 import axios from 'axios';
-import Cart from './routes/Cart.js'
 import { useQuery } from '@tanstack/react-query';
+import {lazy, Suspense, useEffect, useState} from 'react'
 
 export let Context1 = createContext()
+
+const Detail = lazy( () => import('./routes/Detail.js') )
+const Cart = lazy( () => import('./routes/Cart.js') )
 
 function App() {
 
@@ -61,6 +63,7 @@ function App() {
        <Button variant="primary">Primary</Button>
       </Navbar>
 
+      <Suspense fallback={<div>로딩중</div>}>
       <Routes>
         <Route path="/" element={<div>
           <div className="main-bg" style={{ backgroundImage : 'url('+ bg +')'}}></div>
@@ -115,9 +118,9 @@ function App() {
         }/>
         
         <Route path="/detail/:id" element={
-          <Context1.Provider value={{ 재고 }}>
-            <Detail plants={plants}/>
-          </Context1.Provider>
+            <Context1.Provider value={{ 재고 }}>
+              <Detail plants={plants}/>
+            </Context1.Provider>
         } />
 
         <Route path="*" element={<div>해당 페이지는 없어요. 404페이지입니다.</div>} />
@@ -132,6 +135,7 @@ function App() {
         </Route>
         
         </Routes>
+        </Suspense>
     </div>
   );
 }
